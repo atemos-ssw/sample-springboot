@@ -32,3 +32,4 @@ The following guides illustrate how to use some features concretely:
 ### Quartz
 
 > https://www.tutorialsbuddy.com/quartz-with-spring-boot-and-mysql-example
+> https://pingfanzhilu.tistory.com/entry/Spring-%EC%8A%A4%ED%94%84%EB%A7%81-%EB%B6%80%ED%8A%B8Spring-Boot-Quartz-Scheduler-%EC%82%AC%EC%9A%A9%EB%B2%95
