@@ -24,3 +24,7 @@ The following guides illustrate how to use some features concretely:
 ### JPA + QueryDSL Concept
 
 > https://velog.io/@soyeon207/QueryDSL-Spring-Boot-%EC%97%90%EC%84%9C-QueryDSL-JPA-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0
+
+### Test
+
+> https://tychejin.tistory.com/415
