@@ -72,6 +72,11 @@
 			<scope>provided</scope>
 		</dependency>
         
+        <!-- Quartz config -->
+        <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
         
 	</dependencies>
 

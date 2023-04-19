@@ -28,3 +28,7 @@ The following guides illustrate how to use some features concretely:
 ### Test
 
 > https://tychejin.tistory.com/415
+
+### Quartz
+
+> https://www.tutorialsbuddy.com/quartz-with-spring-boot-and-mysql-example
