@@ -25,15 +25,10 @@ public class JobConfiguration {
 	private Scheduler scheduler; // 쿼츠 스케줄 객체
 	
 	@PostConstruct
-	public void run(){
+	public void run() throws SchedulerException{
 		JobDetail detail = runJobDetail(JobFetchSensor.class, new HashMap<>());
 		
-		try {
-            // 크론형식 지정 후 스케줄 시작
-			scheduler.scheduleJob(detail, runJobTrigger("0/10 * * * * ?"));
-		} catch (SchedulerException e) {
-			e.printStackTrace();
-		}
+//		scheduler.scheduleJob(detail, runJobTrigger("0/10 * * * * ?"));
 		
 	}
 	
