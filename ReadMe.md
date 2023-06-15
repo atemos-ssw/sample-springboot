@@ -22,4 +22,11 @@
 >	>mvn compile jib:dockerBuild(build -> jar -> docker image -> 현재 docker deamon)
 
 >docker image 파일로 저장하는 방법
+
 >	>mvn compile jib:buildTar(ave your image to disk as a tarball)
+
+# 빌드 타입(local, devel, prod)
+
+> java -jar -P {local, dev, prod} 
+
+> https://wildeveloperetrain.tistory.com/8

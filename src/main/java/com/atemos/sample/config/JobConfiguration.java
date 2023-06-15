@@ -29,7 +29,7 @@ public class JobConfiguration {
 		JobDetail detail = runJobDetail(JobFetchSensor.class, new HashMap<>());
 		
 		try {
-            	// 크론형식 지정 후 스케줄 시작
+            // 크론형식 지정 후 스케줄 시작
 			scheduler.scheduleJob(detail, runJobTrigger("0/10 * * * * ?"));
 		} catch (SchedulerException e) {
 			e.printStackTrace();
