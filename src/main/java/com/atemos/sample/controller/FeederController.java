@@ -1,22 +1,40 @@
 package com.atemos.sample.controller;
- 
- 
+
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.quartz.SchedulerException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate; 
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import com.atemos.sample.entity.CustomResponseEntity;
+import com.atemos.sample.Custom.BasicResponse;
+import com.atemos.sample.Custom.CommonResponse;
+import com.atemos.sample.Custom.ScheduleRequest; 
 import com.atemos.sample.scheduler.JobFetchSensor;
-
+import com.atemos.sample.service.ScheduleService;
 
 @Slf4j
 @RestController
@@ -24,46 +42,52 @@ import com.atemos.sample.scheduler.JobFetchSensor;
 //@RestController(value = "/api")
 public class FeederController {
 
-	@Value("${gateway.api.key}")
-	private String API_KEY;
-	@Value("${gateway.auth.key}")
-	private String AUTH_KEY;
- 
-	@RequestMapping(value="/api/test", method=RequestMethod.GET)
-	@ResponseStatus(value = HttpStatus.OK)
-	public String test() {
-		return "{\"hello\":\"OK\"}";
-	}
-	
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ResponseEntity<CustomResponseEntity> defaultMsg() {
-		
+	@Autowired
+	private ScheduleService scheduleService;
+
+	@PostMapping("/createSchedule")
+	public ResponseEntity<String> createSchedule(@RequestBody(required = true) Optional<ScheduleRequest> request) {
+		ScheduleRequest scheduleRequest = request.get();
 		try {
-			RestTemplate restTemplate = new RestTemplate();
 
-			// Header set
-			HttpHeaders httpHeaders = new HttpHeaders();
-			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-	 
-			String Key = API_KEY + "__" + AUTH_KEY;
+			if (request.isPresent() && scheduleRequest.nullCheck()) {
+				scheduleService.scheduleJob(scheduleRequest.getJobName(), scheduleRequest.getCronExpression(),
+						scheduleRequest.getItems(), scheduleRequest.getSiteId(), scheduleRequest.getGroupId(),
+						scheduleRequest.getLogicalId());
 
-			CustomResponseEntity msg = new CustomResponseEntity(Key, "OK");
-			
-			HttpHeaders responseHeaders = new HttpHeaders();
-			 
-			ResponseEntity<CustomResponseEntity> responseEntity = new ResponseEntity<>(msg, responseHeaders, HttpStatus.OK);
-			log.debug(responseEntity.toString());
-			return responseEntity;
-		}catch(Exception e) {
-			
-			ResponseEntity response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-			log.error("error :%s".format(e.getMessage()));
-			return response;
-		}
-		finally {
-			// TODO: handle finally clause
-			log.debug("success");
+				return ResponseEntity.ok("Schedule created successfully.");
+			} else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("bad request");
+			}
+
+		} catch (SchedulerException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to create %s schedule.".format(scheduleRequest.getJobName()));
 		}
 	}
+
+	@PostMapping("/pauseSchedule")
+	public ResponseEntity<String> pauseSchedule(@RequestBody ScheduleRequest request) {
+		try {
+
+			scheduleService.pauseJob(request.getJobName());
+			return ResponseEntity.ok(String.format("{0} Schedule paused successfully.", request.getJobName()));
+		} catch (SchedulerException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to pause %s schedule.".format(request.getJobName()));
+		}
+	}
+
+	@PostMapping("/removeSchedule")
+	public ResponseEntity<String> removeSchedule(@RequestBody ScheduleRequest request) {
+		try {
+			scheduleService.unscheduleJob(request.getJobName());
+			return ResponseEntity.ok(String.format("{0} Schedule removed successfully.", request.getJobName()));
+		} catch (SchedulerException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to removed %s schedule.".format(request.getJobName()));
+		}
+	}
+
+	
 }
