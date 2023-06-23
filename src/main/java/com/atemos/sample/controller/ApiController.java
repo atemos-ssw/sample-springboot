@@ -83,7 +83,7 @@ public class ApiController {
 			String SITE_ID="site_id="+siteId;
 			String LOGICAL_ID="metering_device_logical_id="+logicalId;
 			
-			StringBuilder sb = new StringBuilder("https://dev.energywatch.kr/api/v2/metering-ac/group");
+			StringBuilder sb = new StringBuilder(GATEWAY_URL+"/metering-ac/group");
 			sb.append("?")
 				.append(KEY).append("&")
 				.append(SITE_ID).append("&")
