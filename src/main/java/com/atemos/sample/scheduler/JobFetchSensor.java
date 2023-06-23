@@ -1,8 +1,10 @@
 package com.atemos.sample.scheduler;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.Map;
 
 import org.quartz.Job;
@@ -40,32 +42,19 @@ public class JobFetchSensor implements Job {
     	 String siteId = dataMap.getString("siteId");
     	 String groupId = dataMap.getString("groupId");
     	 String logicalId= dataMap.getString("logicalId");
-        // 스케줄링할 작업 내용 작성 
-//    	log.debug("context"  + context.toString());
-    	 
-    	 
-    	 
-//    	 String item = "average_phase_current";
- 		
-		 // 현재 시간 가져오기
-        Instant now = Instant.now(); 
-        // 1초 빼기
-        Instant minusOneSecond = now.minusSeconds(60*60*24*7); 
-        LocalDateTime localDateTime1 = LocalDateTime.ofInstant(now, ZoneOffset.systemDefault());
-        LocalDateTime localDateTime2 = LocalDateTime.ofInstant(minusOneSecond, ZoneOffset.systemDefault());
-        
-        log.info(localDateTime1.toString());
-        log.info(localDateTime2.toString());
-        // Instant를 나노초로 변환
-//        String end_ts = Long.toString(now.toEpochMilli() * 1000000);
-//        String start_ts = Long.toString(minusOneSecond.toEpochMilli()*1000000); 
-        
-        String start_ts = "1649696400000000000";
-        String end_ts="1649782799999000000";
-        
+
+
+		Instant end_ts = Instant.now();
+		Instant start_ts = end_ts.minusSeconds(60);
+		long endNT = end_ts.getEpochSecond() * 1_000_000_000L + end_ts.getNano();
+		long startNT = start_ts.getEpochSecond() * 1_000_000_000L + start_ts.getNano();
+         
+		printTimeStamp(endNT);
+		printTimeStamp(startNT);
+		
 		String url = GATEWAY_URL
-				.replace("{start_ts}", start_ts )
-				.replace("{end_ts}", end_ts)
+				.replace("{start_ts}", String.valueOf(startNT) )
+				.replace("{end_ts}", String.valueOf(endNT))
 				.replace("{logicalId}", logicalId)
 				.replace("{groupId}", groupId)
 				.replace("{siteId}", siteId)
@@ -91,4 +80,29 @@ public class JobFetchSensor implements Job {
     	 log.debug("items is %s, siteId is %s, groupId is %s".format(items, siteId, groupId));
     }
 
+    public void printTimeStamp(long nanosecond) {
+    	if (nanosecond <= 0 || nanosecond == Long.MIN_VALUE) {
+            System.out.println(String.format("%d is not nanoseconds", nanosecond));
+        }
+
+        // 나노초 단위의 시간 범위 내의 값인지 확인합니다.
+        // 예를 들어, 1초는 1_000_000_000_000나노초입니다.
+        // 특정 범위 내에 제한할 필요가 있다면, 해당 범위를 적용할 수 있습니다.
+        if (nanosecond > 1_000_000_000_000L) {
+        	System.out.println(String.format("%d's range is over 1_000_000_000_000L", nanosecond));
+        }
+        
+        long millis = nanosecond/ 1_000_000L;
+        Date date = new Date(millis);  
+        
+        // Create a formatter
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+        
+        String strDT = formatter.format(date);
+//        System.out.println(String.format("%d is %s", nanosecond, strDT));
+        log.debug(String.format("%d is %s", nanosecond, strDT));
+        
+        
+    }
 }
