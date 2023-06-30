@@ -1,4 +1,10 @@
-#
+#REST API 사용법
+
+## Get Site 
+
+> ex) curl --location 'http://localhost:8080/api/site/128?key=AIzaSyB5FJ2MDKKqK8JVWU21HOFa35Jqzt1U40Y&logicalId=0c1bf0Ao2s&siteId=128&items=average_phase_current&groupId=1'
+
+## Get AC Feeder 
 
 
 # JPA + QueryDSL Concept
@@ -35,3 +41,6 @@
 > java -jar -P {local, dev, prod} 
 
 > https://wildeveloperetrain.tistory.com/8
+
+# 멀티 DB 스키마 접근 방법
+> https://minaminaworld.tistory.com/219
