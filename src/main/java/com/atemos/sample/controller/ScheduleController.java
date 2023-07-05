@@ -30,9 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import com.atemos.sample.Custom.BasicResponse;
-import com.atemos.sample.Custom.CommonResponse;
-import com.atemos.sample.Custom.ScheduleRequest; 
+import com.atemos.sample.custom.BasicResponse;
+import com.atemos.sample.custom.CommonResponse;
+import com.atemos.sample.custom.ScheduleRequest;
 import com.atemos.sample.scheduler.JobFetchSensor;
 import com.atemos.sample.service.ScheduleService;
 
@@ -40,7 +40,7 @@ import com.atemos.sample.service.ScheduleService;
 @RestController
 @RequestMapping("api")
 //@RestController(value = "/api")
-public class FeederController {
+public class ScheduleController {
 
 	@Autowired
 	private ScheduleService scheduleService;

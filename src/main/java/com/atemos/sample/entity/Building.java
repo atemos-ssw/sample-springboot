@@ -2,6 +2,7 @@ package com.atemos.sample.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,11 +15,15 @@ import javax.persistence.Table;
 
 import org.springframework.context.annotation.Primary;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name = "BUILDING")
 @Data
+@ToString
 public class Building {
 
 	@Id
@@ -34,8 +39,10 @@ public class Building {
 	@Column(name = "TEL")
 	private String tel;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "LOCATION_ID")
+//	@JsonIgnore
+	//	https://ahndding.tistory.com/24, 
 	private Location location;
 
 }

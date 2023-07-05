@@ -2,6 +2,7 @@ package com.atemos.sample.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,19 +12,17 @@ import javax.persistence.SecondaryTables;
 import javax.persistence.Table;
  
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name="CUSTOMER")
 @Data
+@ToString
 public class Customer {
 
 	@Id
     @Column(name = "CUSTOMER_ID")
     private int customerId;
-
-    @ManyToOne
-    @JoinColumn(name = "SERVER_ID")
-    private AmrInfo amrInfo;
 
     @Column(name = "NAME")
     private String name;
@@ -41,10 +40,14 @@ public class Customer {
     private int contractAmount;
 
     @Column(name = "COST_TYPE")
-    private String costType;
+    private String costType; 
 
-    @ManyToOne
-    @JoinColumn(name = "BUILDING_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SERVER_ID", referencedColumnName = "SERVER_ID")
+    private AmrInfo amrInfo;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BUILDING_ID", referencedColumnName = "BUILDING_ID")
     private Building building;
 	
 }

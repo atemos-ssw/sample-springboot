@@ -14,8 +14,7 @@ import com.atemos.sample.entity.QHello;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
+ 
 @Transactional
 @SpringBootTest
 class DemoApplicationTests {

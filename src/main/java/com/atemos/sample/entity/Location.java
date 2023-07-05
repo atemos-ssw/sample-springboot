@@ -8,10 +8,12 @@ import javax.persistence.SecondaryTables;
 import javax.persistence.Table;
  
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name="LOCATION")
 @Data
+@ToString
 public class Location {
 
 	@Id
