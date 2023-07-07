@@ -18,8 +18,8 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.atemos.sample.Custom.CommonResponse;
-import com.atemos.sample.Custom.RetiBody;
+import com.atemos.sample.custom.CommonResponse;
+import com.atemos.sample.custom.RetiBody;
 
 import lombok.extern.slf4j.Slf4j;
 

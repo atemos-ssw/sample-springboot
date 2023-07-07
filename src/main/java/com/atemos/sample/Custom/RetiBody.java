@@ -1,4 +1,4 @@
-package com.atemos.sample.Custom;
+package com.atemos.sample.custom;
 
 import lombok.Data;
 

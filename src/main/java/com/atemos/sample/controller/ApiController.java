@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.atemos.sample.Custom.CommonResponse;
-import com.atemos.sample.Custom.ErrorResponse;
-import com.atemos.sample.Custom.RetiBody;
+import com.atemos.sample.custom.CommonResponse;
+import com.atemos.sample.custom.RetiBody;
+import com.atemos.sample.exception.ErrorCode;
+import com.atemos.sample.exception.ErrorResponse;
 
 import lombok.extern.slf4j.Slf4j;
 import netscape.javascript.JSObject;
@@ -56,9 +57,11 @@ public class ApiController {
 			return ResponseEntity.ok().body(entity.getBody());
 		} catch (Exception e) {
 			// TODO: handle exception
-			ErrorResponse errorResponse = new ErrorResponse("error", HttpStatus.INTERNAL_SERVER_ERROR);
+//			ErrorResponse errorResponse = new ErrorResponse("error", HttpStatus.INTERNAL_SERVER_ERROR);
+			ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INTER_SERVER_ERROR);
 			log.error(e.getLocalizedMessage());
-			return ResponseEntity.ok().body(errorResponse);
+//			return ResponseEntity.ok().body(errorResponse);
+			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
 	}
 	
@@ -111,9 +114,13 @@ public class ApiController {
 			return ResponseEntity.ok(commonResponse);
 		} catch (Exception e) {
 			// TODO: handle exception
-			ErrorResponse errorResponse = new ErrorResponse("error", HttpStatus.INTERNAL_SERVER_ERROR);
+//			ErrorResponse errorResponse = new ErrorResponse("error", HttpStatus.INTERNAL_SERVER_ERROR);
+//			log.error(e.getLocalizedMessage());
+//			return ResponseEntity.ok().body(errorResponse); 
+			ErrorResponse errorResponse = new ErrorResponse(ErrorCode.INTER_SERVER_ERROR);
 			log.error(e.getLocalizedMessage());
-			return ResponseEntity.ok().body(errorResponse);
+//			return ResponseEntity.ok().body(errorResponse);
+			return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
 	} 
 }

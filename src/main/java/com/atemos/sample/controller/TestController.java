@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.atemos.sample.Custom.ScheduleRequest;
+import com.atemos.sample.custom.ScheduleRequest;
 import com.atemos.sample.service.ScheduleService;
 
 import lombok.extern.slf4j.Slf4j;
