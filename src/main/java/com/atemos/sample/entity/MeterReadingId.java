@@ -12,7 +12,12 @@ import lombok.Data;
 @Data
 public class MeterReadingId implements Serializable {
 
-    @Column(name = "M_YEAR")
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Column(name = "M_YEAR")
     private int year;
 
     @Column(name = "M_MONTH")

@@ -13,60 +13,55 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.atemos.sample.custom.CommonResponse;
-import com.atemos.sample.entity.AmrInfo;
-import com.atemos.sample.entity.Customer;
-import com.atemos.sample.repository.CustomerRepository;
-import com.atemos.sample.service.CustomerService;
+import com.atemos.sample.custom.CommonResponse; 
+import com.atemos.sample.entity.Meter;
+import com.atemos.sample.service.MeterService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestController 
+@RestController
 @SuppressWarnings("rawtypes")
-@RequestMapping("/api/customer")
-public class CustomerController {
-	
-	private final CustomerService customerService;
-	
+@RequestMapping("/api/meter")
+public class MeterController {
+
+	private final MeterService meterService;
+
 	@Autowired
-	public CustomerController(CustomerService customerService) {
-		this.customerService = customerService;
+	public MeterController(MeterService meterService) {
+		this.meterService = meterService;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@GetMapping("/getAll")
 	public ResponseEntity getAllData() {
-		List<Customer> list = customerService.onGetAll();
+		List<Meter> list = meterService.onGetAll();
 		CommonResponse response = new CommonResponse<>();
 		response.setData(list);
-		return new ResponseEntity(response, HttpStatus.OK);	 	
-		
+		return new ResponseEntity(response, HttpStatus.OK);
 	}
 	
-	@GetMapping("/get/{customerId}")
-	public ResponseEntity getData(@PathVariable("customerId") Integer customerId) {
-		
-		Optional<Customer> list = customerService.onGet(customerId);
+	@GetMapping("/get/{meterId}")
+	public ResponseEntity getData(@PathVariable("meterId") Integer id) {
+		Optional<Meter> optM = meterService.onGet(id);
+
 		CommonResponse response = new CommonResponse<>();
-		response.setData(list);
+		response.setData(optM);
 		return new ResponseEntity(response, HttpStatus.OK);	 	
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity create(@RequestBody Customer customer) {
-		Customer c = customerService.onSave(customer);
+	public ResponseEntity create(@RequestBody Meter m) {
+		Meter mm  = meterService.onSave(m);
 		CommonResponse response = new CommonResponse<>();
-		response.setData(c);
+		response.setData(mm);
 		return new ResponseEntity(response, HttpStatus.OK);	
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity update(@RequestBody Customer customer) {
-		Customer c = customerService.onUpdate(customer);
+	public ResponseEntity update(@RequestBody Meter m) {
+		Meter mm = meterService.onUpdate(m);
 		CommonResponse response = new CommonResponse<>();
-		response.setData(c);
+		response.setData(mm);
 		return new ResponseEntity(response, HttpStatus.OK);	
 	}
-
 }

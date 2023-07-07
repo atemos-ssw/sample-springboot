@@ -7,7 +7,10 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +22,12 @@ import com.atemos.sample.entity.AmrInfo;
 import com.atemos.sample.entity.Building;
 import com.atemos.sample.entity.Customer;
 import com.atemos.sample.entity.Location;
+import com.atemos.sample.entity.Meter;
 import com.atemos.sample.service.AMRInfoService;
 import com.atemos.sample.service.BuildingService;
 import com.atemos.sample.service.CustomerService;
 import com.atemos.sample.service.LocationService;
+import com.atemos.sample.service.MeterService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,7 +51,8 @@ public class DBTransactionTest {
 	@Autowired
 	CustomerService customerService;
 	
-	 
+	@Autowired
+	MeterService meterService;
 
 	 
 //	@Ignore
@@ -69,19 +75,33 @@ public class DBTransactionTest {
 //		assertEquals(obj, obj2);
 //				
 //	}
-	
+
 	@Test 
-	@DisplayName("AddCustomer Test")
+	@DisplayName("addMeter Test")
 	@Transactional
-	public void addCustomer() throws Exception {
+	public void addMeter() throws Exception {
+		
 		Customer obj =new  Customer();
 		 
 		obj.setContractAmount(1);
-		obj.setCostType("type1");
-		obj.setEnergyType("energyType-1");
+		obj.setCostType("t-1");
+		obj.setEnergyType("e-1");
 		obj.setName("name");
 		obj.setIsAgree(true);
 		obj.setTel("+82123412341234");
 		customerService.onSave(obj);
-	}
+		
+		Meter m =new  Meter();
+		Customer c = customerService.onGetAll().get(0);
+		
+		m.setMeterId(1);
+		m.setCustomer(c);
+		m.setMeterName("meter-01");
+		m.setMeterType("t-1");
+		m.setPeriod(30);
+		m.setStatus(true);
+		
+		meterService.onSave(m);
+		 
+	}	
  }
