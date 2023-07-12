@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @SuppressWarnings("rawtypes")
-@RequestMapping("/api/meter")
+@RequestMapping("/api/v1/meter")
 public class MeterController {
 
 	private final MeterService meterService;

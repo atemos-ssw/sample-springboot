@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("api/building")
+@RequestMapping("/api/v1//building")
 @SuppressWarnings("rawtypes")
 public class BuildingController {
 	

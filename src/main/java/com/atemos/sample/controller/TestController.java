@@ -26,7 +26,7 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @RestController
-@RequestMapping("test")
+@RequestMapping("/api/public/")
 public class TestController {
 
 	@Value("${gateway.api.key}")

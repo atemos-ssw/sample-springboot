@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController 
 @SuppressWarnings("rawtypes")
-@RequestMapping("/api/amrinfo")
+@RequestMapping("/api/v1/amrinfo")
 public class AMRInfoController {
 
 	private final AMRInfoService amrInfoService;

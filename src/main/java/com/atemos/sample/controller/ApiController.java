@@ -23,7 +23,7 @@ import netscape.javascript.JSObject;
 
 @Slf4j
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api/v1/")
 public class ApiController {
 
 	@Value("${gateway.api.key}")

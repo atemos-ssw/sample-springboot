@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController 
 @SuppressWarnings("rawtypes")
-@RequestMapping("/api/customer")
+@RequestMapping("/api/v1/customer")
 public class CustomerController {
 	
 	private final CustomerService customerService;
@@ -68,5 +68,7 @@ public class CustomerController {
 		response.setData(c);
 		return new ResponseEntity(response, HttpStatus.OK);	
 	}
+	
+	
 
 }
