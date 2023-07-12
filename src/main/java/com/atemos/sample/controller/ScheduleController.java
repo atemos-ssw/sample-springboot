@@ -38,7 +38,7 @@ import com.atemos.sample.service.ScheduleService;
 
 @Slf4j
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api/v1")
 //@RestController(value = "/api")
 public class ScheduleController {
 
